@@ -10,7 +10,9 @@ const jsonwebtoken=require('jsonwebtoken')
 const admin=require('./Schema/admin')
 const user=require('./Schema/user_register')
 const product=require('./Schema/product')
+const order=require('./Schema/order')
 const AdminController=require('./controllers/adminController')
+const productController=require('./controllers/productController')
 
 const authorization=require('./functions/auth')
 const cors=require('./functions/cors')
@@ -159,11 +161,36 @@ app.post('/user/login',async(req,res)=>{
 app.post('/product',async(req,res)=>{
 	try{
 		const{p_type,p_catogarie,p_size,p_price,p_colour}=req.body
-		const product_add=new product({
+		const product_add=await productController.Product(
 			p_type,p_catogarie,p_size,p_price,p_colour
-		}).save()
+		)
 		res.status(200).json({message:'success',data:product_add})
 	}catch(error){
 		res.status(500).json({message:'failed',error:err.message})
+	}
+})
+app.post('/product/delete',async(req,res)=>{
+	try{
+		const _id=req.body
+		const prodel=await productController.ProductDelete(
+			_id
+		)
+		res.status(200).json({message:'success',data:prodel})
+	}catch(error){
+		res.status(500).json({message:'failed',error:err.message})
+	}
+})
+app.post('/order/place',authorization,async(req,res)=>{
+	try{
+		const{p_id,quantity}=req.body
+		const u_id=req.id
+		const ord=new order({
+			u_id,
+			p_id,
+			quantity
+		}).save()
+		res.status(200).json({message:'success',data:ord})
+	}catch(error){
+		res.status(500).json({message:"failed"})
 	}
 })
