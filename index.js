@@ -9,6 +9,7 @@ const jsonwebtoken=require('jsonwebtoken')
 
 const admin=require('./Schema/admin')
 const user=require('./Schema/user_register')
+const product=require('./Schema/product')
 const AdminController=require('./controllers/adminController')
 
 const authorization=require('./functions/auth')
@@ -46,14 +47,10 @@ app.get('/', async (req, res) => {
 
 app.post('/add/product',async(req,res)=>{
     try{
-        const{admin_name,p_type,p_price,p_catogarie,p_size,p_colour,admin_password}=req.body
+        const{admin_name,admin_email,admin_password}=req.body
         const Admin=await AdminController.Addproduct(
             admin_name,
-            p_type,
-            p_price,
-            p_catogarie,
-            p_size,
-            p_colour,
+            admin_email,
 			admin_password
     )
     await Admin.save()
@@ -65,7 +62,7 @@ app.post('/add/product',async(req,res)=>{
 app.post('/admin/login', async (req, res) => {
     try {
         const { admin_name, admin_password } = req.body;
-        const adminlogin = await admin.findOne({ admin_name, admin_password });
+        const adminlogin = await AdminController.AdminLogin( admin_name, admin_password );
 
 		if (adminlogin) {
 			{
@@ -157,4 +154,16 @@ app.post('/user/login',async(req,res)=>{
 		console.log(error)
 	}
 
+})
+
+app.post('/product',async(req,res)=>{
+	try{
+		const{p_type,p_catogarie,p_size,p_price,p_colour}=req.body
+		const product_add=new product({
+			p_type,p_catogarie,p_size,p_price,p_colour
+		}).save()
+		res.status(200).json({message:'success',data:product_add})
+	}catch(error){
+		res.status(500).json({message:'failed',error:err.message})
+	}
 })

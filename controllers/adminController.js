@@ -1,10 +1,11 @@
 const admin=require('../Schema/admin')
+const product=require('../Schema/product')
 class AdminController{
     static async Addproduct(
-        admin_name,p_type,p_price,p_catogarie,p_size,p_colour,admin_password
+        admin_name,admin_email,admin_password
     ){
         const addpro=await new admin({
-            admin_name,p_type,p_price,p_catogarie,p_size,p_colour,admin_password
+            admin_name,admin_email,admin_password
         }).save()
         return addpro
     }
@@ -18,10 +19,10 @@ class AdminController{
         _id
     ){
 
-        const prolist=await admin.findOne({_id})
+        const prolist=await product.findOne({_id})
         return prolist
     }
-    static async admin_login(
+    static async AdminLogin(
         admin_name,admin_password
     ){
         const login=await admin.findOne({admin_name,admin_password})

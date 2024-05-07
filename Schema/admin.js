@@ -7,22 +7,9 @@ const Admin=new mongoose.Schema({
     admin_password:{
         type:String
     },
-    p_type:{
+    admin_email:{
         type:String
     },
-    p_catogarie:{
-        type:String
-    },
-    p_price:{
-        type:Number
-    },
-    p_colour:{
-        type:String
-    },
-    p_size:{
-        type:String
-    },
-    
 
 })
 module.exports=mongoose.model('admin',Admin)
