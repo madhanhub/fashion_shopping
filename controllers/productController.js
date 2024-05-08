@@ -8,6 +8,7 @@ class productController{
         }).save()
         return pro
     }
+   
     static async ProductDelete(
         _id
     ){

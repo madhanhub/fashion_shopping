@@ -1,5 +1,6 @@
 const mongoose=require('mongoose')
 const products=new mongoose.Schema({
+   
     p_type:{
         type:String
     },

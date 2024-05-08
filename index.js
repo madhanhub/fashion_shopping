@@ -169,6 +169,7 @@ app.post('/product',async(req,res)=>{
 		res.status(500).json({message:'failed',error:err.message})
 	}
 })
+
 app.post('/product/delete',async(req,res)=>{
 	try{
 		const _id=req.body
@@ -180,15 +181,28 @@ app.post('/product/delete',async(req,res)=>{
 		res.status(500).json({message:'failed',error:err.message})
 	}
 })
-app.post('/order/place',authorization,async(req,res)=>{
+app.post('/order',async(req,res)=>{
 	try{
-		const{p_id,quantity}=req.body
-		const u_id=req.id
-		const ord=new order({
-			u_id,
-			p_id,
-			quantity
+		const {u_id,p_type,p_catogarie,p_size,p_price,p_colour}=req.body
+		const orders=new order({
+			u_id,p_type,p_catogarie,p_size,p_price,p_colour
 		}).save()
+		res.status(200).json({message:'success',data:orders})
+	}catch(error){
+		res.status(500).json({message:'failed',error:err.message})
+	}
+})
+
+app.post('/order/place',async(req,res)=>{
+	try{
+		
+		const prod=await product.findOne({_id:req.body._id,p_price:req.body.p_price})
+		console.log(prod)
+		var ord=prod.p_price
+		await order.findOneAndUpdate({_id:req.body._id},
+			{$push:{cart:{product:prod.p_price,
+				
+			}}})
 		res.status(200).json({message:'success',data:ord})
 	}catch(error){
 		res.status(500).json({message:"failed"})
