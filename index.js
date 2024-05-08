@@ -13,6 +13,7 @@ const product=require('./Schema/product')
 const order=require('./Schema/order')
 const AdminController=require('./controllers/adminController')
 const productController=require('./controllers/productController')
+const orderController=require('./controllers/orderController')
 
 const authorization=require('./functions/auth')
 const cors=require('./functions/cors')
@@ -195,15 +196,12 @@ app.post('/order',async(req,res)=>{
 
 app.post('/order/place',async(req,res)=>{
 	try{
-		
-		const prod=await product.findOne({_id:req.body._id,p_price:req.body.p_price})
-		console.log(prod)
-		var ord=prod.p_price
-		await order.findOneAndUpdate({_id:req.body._id},
-			{$push:{cart:{product:prod.p_price,
-				
-			}}})
-		res.status(200).json({message:'success',data:ord})
+		const {u_id,_id}=req.body
+		const prod=await orderController.Order_placed({
+			_id,
+			id
+	})
+		res.status(200).json({message:'success',data:prod})
 	}catch(error){
 		res.status(500).json({message:"failed"})
 	}
