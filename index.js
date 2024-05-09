@@ -182,26 +182,37 @@ app.post('/product/delete',async(req,res)=>{
 		res.status(500).json({message:'failed',error:err.message})
 	}
 })
-app.post('/order',async(req,res)=>{
+app.post('/order',authorization,async(req,res)=>{
 	try{
-		const {u_id,p_type,p_catogarie,p_size,p_price,p_colour}=req.body
-		const orders=new order({
-			u_id,p_type,p_catogarie,p_size,p_price,p_colour
-		}).save()
+		// const u_id=req.id
+		const orders=await orderController.Order(
+			u_id=req.id
+	)
 		res.status(200).json({message:'success',data:orders})
 	}catch(error){
-		res.status(500).json({message:'failed',error:err.message})
+		res.status(500).json({message:'failed'})
 	}
 })
 
 app.post('/order/place',async(req,res)=>{
 	try{
-		const {u_id,_id}=req.body
+		const {id,_id}=req.body
 		const prod=await orderController.Order_placed({
 			_id,
 			id
 	})
 		res.status(200).json({message:'success',data:prod})
+	}catch(error){
+		res.status(500).json({message:"failed"})
+	}
+})
+app.post('/order/cancle',async(req,res)=>{
+	try{
+		const{_id,product}=req.body
+		const cancle=await orderController.Order_cancle(
+			_id,product
+	)
+		res.status(200).json({message:'order cancle',data:cancle})
 	}catch(error){
 		res.status(500).json({message:"failed"})
 	}
