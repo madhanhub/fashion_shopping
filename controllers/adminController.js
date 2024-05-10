@@ -9,19 +9,7 @@ class AdminController{
         }).save()
         return addpro
     }
-    static async Delproduct(
-        _id
-    ){
-        const prodel=await admin.findOneAndDelete({_id})
-        return prodel
-    }
-    static async Listproduct(
-        _id
-    ){
-
-        const prolist=await product.findOne({_id})
-        return prolist
-    }
+   
     static async AdminLogin(
         admin_name,admin_password
     ){

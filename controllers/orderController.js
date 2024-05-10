@@ -1,5 +1,5 @@
 const order=require('../Schema/order')
-//const product=require('../Schema/product')
+const product=require('../Schema/product')
 class orderController{
     static async Order_placed(
         _id,id

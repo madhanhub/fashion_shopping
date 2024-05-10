@@ -1,4 +1,5 @@
 const user=require('../Schema/user_register')
+const product=require('../Schema/product')
 class userController{
     static async UserRegister(
         user_name,email,password,mobile_no
@@ -14,6 +15,12 @@ class userController{
         const U_Login=await user.findOne({email,password})
 
         return U_Login
+    }
+    static async Product_list(
+        _id
+    ){
+        const list=await product.findOne({_id})
+        return list
     }
 }
 module.exports=userController

@@ -48,7 +48,7 @@ app.get('/', async (req, res) => {
 	res.json('welcome ')
 })
 
-app.post('/add/product',async(req,res)=>{
+app.post('/new/admin',async(req,res)=>{
     try{
         const{admin_name,admin_email,admin_password}=req.body
         const Admin=await AdminController.Addproduct(
@@ -87,19 +87,31 @@ app.post('/admin/login', async (req, res) => {
         res.status(500).json({ message: 'Internal server error', error: error.message });
     }
 })
-app.post('/delete/product',async(req,res)=>{
+app.post('/product',async(req,res)=>{
+	try{
+		const{p_type,p_catogarie,p_size,p_price,p_colour}=req.body
+		const product_add=await productController.Product(
+			p_type,p_catogarie,p_size,p_price,p_colour
+		)
+		res.status(200).json({message:'success',data:product_add})
+	}catch(error){
+		res.status(500).json({message:'failed'})
+	}
+})
+
+app.post('/delete/product',authorization,async(req,res)=>{
 	try{
 		const _id=req.body
-		const pdel=await AdminController.Delproduct(_id)
+		const pdel=await productController.ProductDelete(_id)
 		res.status(200).json({mesdage:'success',data:pdel})
 	}catch(error){
 		res.status(500).json({message:'failed'})
 	}
 })
-app.post('/list/product',async(req,res)=>{
+app.post('/list/product',authorization,async(req,res)=>{
 	try{
 		const _id=req.body
-		const listP=await AdminController.Listproduct(
+		const listP=await productController.Listproduct(
 			_id
 		)
 		res.status(200).json({message:'success',data:listP})
@@ -107,6 +119,18 @@ app.post('/list/product',async(req,res)=>{
 		res.status(500).json({message:'failed'})
 	}
 })
+app.post('/product/delete',authorization,async(req,res)=>{
+	try{
+		const _id=req.body
+		const prodel=await productController.ProductDelete(
+			_id
+		)
+		res.status(200).json({message:'success',data:prodel})
+	}catch(error){
+		res.status(500).json({message:'failed',error:err.message})
+	}
+})
+
 app.post('/user/register',async(req,res)=>{
 	try{
 		const{user_name,email,password,mobile_no}=req.body
@@ -158,30 +182,16 @@ app.post('/user/login',async(req,res)=>{
 	}
 
 })
-
-app.post('/product',async(req,res)=>{
-	try{
-		const{p_type,p_catogarie,p_size,p_price,p_colour}=req.body
-		const product_add=await productController.Product(
-			p_type,p_catogarie,p_size,p_price,p_colour
-		)
-		res.status(200).json({message:'success',data:product_add})
-	}catch(error){
-		res.status(500).json({message:'failed',error:err.message})
-	}
-})
-
-app.post('/product/delete',async(req,res)=>{
+app.post('/user/list/product',authorization,async(req,res)=>{
 	try{
 		const _id=req.body
-		const prodel=await productController.ProductDelete(
-			_id
-		)
-		res.status(200).json({message:'success',data:prodel})
+		const list=await userController.Product_list(_id)
+		res.status(200).json({message:'success',data:list})
 	}catch(error){
-		res.status(500).json({message:'failed',error:err.message})
+		res.status(500).json({ success: false})
 	}
 })
+
 app.post('/order',authorization,async(req,res)=>{
 	try{
 		// const u_id=req.id
@@ -194,7 +204,7 @@ app.post('/order',authorization,async(req,res)=>{
 	}
 })
 
-app.post('/order/place',async(req,res)=>{
+app.post('/order/place',authorization,async(req,res)=>{
 	try{
 		const {id,_id}=req.body
 		const prod=await orderController.Order_placed({
@@ -206,7 +216,7 @@ app.post('/order/place',async(req,res)=>{
 		res.status(500).json({message:"failed"})
 	}
 })
-app.post('/order/cancle',async(req,res)=>{
+app.post('/order/cancle',authorization,async(req,res)=>{
 	try{
 		const{_id,product}=req.body
 		const cancle=await orderController.Order_cancle(
