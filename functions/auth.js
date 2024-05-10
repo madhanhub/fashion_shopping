@@ -34,5 +34,4 @@ const authorization = function (req,res,next){
    
    
 };
-//https://codeforgeek.com/refresh-token-jwt-nodejs-authentication/
 module.exports = authorization;
