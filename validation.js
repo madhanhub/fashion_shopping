@@ -30,6 +30,19 @@ const validator = {
             return false;
         }
         return true;
-    }
+    },
+    email:(email)=>{
+        if (!/[_a-z0-9-]+(\.[_a-z0-9-]+)*(\+[a-z0-9-]+)?@[a-z0-9-]+(\.[a-z0-9-]+)*$/.test(email)) {
+            return false
+        }
+        return true;
+      },
+    mobile_no:(mobile_no)=>{
+        if (typeof mobile_no !== 'string' || mobile_no.length < 9 || mobile_no.length > 10) {
+            return false;
+          }
+          return true;
+        },
+    
 }
 module.exports = validator

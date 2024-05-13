@@ -9,13 +9,21 @@ const user=new mongoose.Schema({
         }
     },
     email:{
-        type:String
+        type:String,
+        validate:{
+            validator:validator.email,
+            message:'invalid email'
+        },
     },
     password:{
         type:String
     },
     mobile_no:{
-        type:String
+        type:String,
+        validate:{
+            validator:validator.mobile_no,
+            message:'invalide movile'
+        }
     },
     
 })
