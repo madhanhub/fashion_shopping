@@ -1,14 +1,27 @@
 const mongoose=require('mongoose')
+const validator=require('../validation')
 const Admin=new mongoose.Schema({
 
     admin_name:{
-        type:String
+        type:String,
+        validate: {
+            validator: validator.admin_name,
+            message: ' admin_name.',
+          },
     },
     admin_password:{
-        type:String
+        type:String,
+        // validate: {
+        //     validator: validator.admin_password,
+        //       message: 'Invalid password.',
+        //     },
     },
     admin_email:{
-        type:String
+        type:String,
+         validate: {
+            validator: validator.admin_email,
+        message: 'Invalid email.',
+      },
     },
 
 })
