@@ -11,9 +11,11 @@ const admin=require('./Schema/admin')
 const user=require('./Schema/user_register')
 const product=require('./Schema/product')
 const order=require('./Schema/order')
+const order_detail=require('./Schema/orderdetails')
 const AdminController=require('./controllers/adminController')
 const productController=require('./controllers/productController')
 const orderController=require('./controllers/orderController')
+const orderdetailController=require('./controllers/orderdetailController')
 
 const authorization=require('./functions/auth')
 const cors=require('./functions/cors')
@@ -225,5 +227,19 @@ app.post('/order/cancle',authorization,async(req,res)=>{
 		res.status(200).json({message:'order cancle',data:cancle})
 	}catch(error){
 		res.status(500).json({message:"failed"})
+	}
+})
+app.post('/order/detail',async(req,res)=>{
+	try{
+		const{orderId,productId,p_price,quantity}=req.body
+		const order_d=await orderdetailController.order_D({
+			orderId,
+			productId,
+			p_price,
+			quantity
+	})
+		res.status(200).json({message:'success',data:order_d})
+	}catch(errro){
+		res.status(500).json({message:'failed'})
 	}
 })
