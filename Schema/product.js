@@ -17,7 +17,8 @@ const products=new mongoose.Schema({
         type:String
     },
     product_deliveredOn:{
-        type:Date
+        type:Date,
+        default:Date.now
     }
 
 })

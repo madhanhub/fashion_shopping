@@ -7,7 +7,7 @@ class orderController{
         const prod=await product.findOne({_id})
         var ord=prod._id
         await order.findOneAndUpdate({id},
-            {$push:{cart:{product:_id}}})
+            {$push:{cart:{_id:req.body}}})
             return ord
     }
     static async Order(

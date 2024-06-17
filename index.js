@@ -91,9 +91,12 @@ app.post('/admin/login', async (req, res) => {
 })
 app.post('/product',async(req,res)=>{
 	try{
-		const{p_type,p_catogarie,p_size,p_price,p_colour}=req.body
+		const{p_type,p_catogarie,p_size,p_price,p_colour,product_deliveredOn}=req.body
+		const threeDaysFromNow = new Date();
+    threeDaysFromNow.setDate(threeDaysFromNow.getDate() + 3);
+    this.product_deliveredOn = threeDaysFromNow;
 		const product_add=await productController.Product(
-			p_type,p_catogarie,p_size,p_price,p_colour
+			p_type,p_catogarie,p_size,p_price,p_colour,threeDaysFromNow
 		)
 		res.status(200).json({message:'success',data:product_add})
 	}catch(error){
@@ -233,18 +236,14 @@ app.post('/order/cancle',authorization,async(req,res)=>{
 })
 app.post('/order/detail',async(req,res)=>{
 	try{
-		const{orderId,productId,p_price,quantity,product_deliveredOne}=req.body
-		if (!this.product_deliveredOn) {
-			const threeDaysFromNow = new Date();
-			threeDaysFromNow.setDate(threeDaysFromNow.getDate() + 3);
-			this.product_deliveredOn = threeDaysFromNow;
-		  }
+		const{orderId,productId,p_price,quantity}=req.body
+		
 		const order_d=await orderdetailController.order_D({
 			orderId,
 			productId,
 			p_price,
 			quantity,
-			threeDaysFromNow
+			
 	})
 		res.status(200).json({message:'success',data:order_d})
 	}catch(errro){

@@ -2,10 +2,10 @@ const product=require('../Schema/product')
 const admin=require('../Schema/admin')
 class productController{
     static async Product(
-        p_type,p_catogarie,p_size,p_price,p_colour
+        p_type,p_catogarie,p_size,p_price,p_colour,product_deliveredOn
     ){
         const pro=await new product({
-            p_type,p_catogarie,p_size,p_price,p_colour
+            p_type,p_catogarie,p_size,p_price,p_colour,product_deliveredOn
         }).save()
         return pro
     }
