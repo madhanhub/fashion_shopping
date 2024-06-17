@@ -4,10 +4,22 @@ const orders=new mongoose.Schema({
 type:String
    },
     cart:[{
-        product:{
-            type:String,
-            
-    }
+        p_type:{
+            type:String
+        },
+        p_catogarie:{
+            type:String
+        },
+        p_price:{
+            type:Number
+        },
+        p_colour:{
+            type:String
+        },
+        p_size:{
+            type:String
+        },
+    
 }]
 })
 module.exports=mongoose.model('order',orders)

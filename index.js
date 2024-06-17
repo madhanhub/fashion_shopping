@@ -197,8 +197,10 @@ app.post('/user/list/product',authorization,async(req,res)=>{
 app.post('/order',authorization,async(req,res)=>{
 	try{
 		// const u_id=req.id
+		
 		const orders=await orderController.Order(
-			u_id=req.id
+			u_id=req.id,
+			
 	)
 		res.status(200).json({message:'success',data:orders})
 	}catch(error){
@@ -231,12 +233,18 @@ app.post('/order/cancle',authorization,async(req,res)=>{
 })
 app.post('/order/detail',async(req,res)=>{
 	try{
-		const{orderId,productId,p_price,quantity}=req.body
+		const{orderId,productId,p_price,quantity,product_deliveredOne}=req.body
+		if (!this.product_deliveredOn) {
+			const threeDaysFromNow = new Date();
+			threeDaysFromNow.setDate(threeDaysFromNow.getDate() + 3);
+			this.product_deliveredOn = threeDaysFromNow;
+		  }
 		const order_d=await orderdetailController.order_D({
 			orderId,
 			productId,
 			p_price,
-			quantity
+			quantity,
+			threeDaysFromNow
 	})
 		res.status(200).json({message:'success',data:order_d})
 	}catch(errro){

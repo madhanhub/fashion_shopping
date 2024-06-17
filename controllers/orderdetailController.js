@@ -7,7 +7,8 @@ class orderdetailController{
             orderId,
 			productId,
 			p_price,
-			quantity
+			quantity,
+            product_deliveredOn
         ).save()
         return order_d
     }

@@ -14,7 +14,8 @@ class orderController{
         u_id
     ){
         const orders=await new order({
-            u_id
+            u_id,
+           
         }).save()
         return orders
     }

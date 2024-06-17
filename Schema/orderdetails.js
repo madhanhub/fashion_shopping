@@ -12,6 +12,9 @@ const order_detail=new mongoose.Schema({
     },
     quantity:{
         type:String
+    },
+    product_deliveredOn:{
+        type:Date
     }
 })
 module.exports=mongoose.model('orderdetails',order_detail)

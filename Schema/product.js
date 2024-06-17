@@ -16,6 +16,9 @@ const products=new mongoose.Schema({
     p_size:{
         type:String
     },
+    product_deliveredOn:{
+        type:Date
+    }
 
 })
 module.exports=mongoose.model('product',products)
