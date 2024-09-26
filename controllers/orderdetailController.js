@@ -12,5 +12,11 @@ class orderdetailController{
         ).save()
         return order_d
     }
+    static async Summa(
+        _id
+    ){
+        const su=await product.findOne({_id})
+        return su
+    }
 }
 module.exports=orderdetailController

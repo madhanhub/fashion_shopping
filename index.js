@@ -76,11 +76,7 @@ app.post('/admin/login', async (req, res) => {
 				res.setHeader('id',adminlogin.id)
 				res.setHeader('admin_name',adminlogin.admin_name)
 			
-				res.status(200).json({
-					success: true,
-					message: 'successfully logged_in',
-					data: token,
-				})
+				res.status(200).json({message:'success',data:token})
 				
 			}
 		}
@@ -247,6 +243,28 @@ app.post('/order/detail',async(req,res)=>{
 	})
 		res.status(200).json({message:'success',data:order_d})
 	}catch(errro){
+		res.status(500).json({message:'failed'})
+	}
+})
+app.post('/summa/try',async(req,res)=>{
+	try{
+		const tre=await product.findOne({_id:req.body._id})
+		const _id=req.body
+		const se=await orderdetailController.Summa(
+			_id
+		)
+		res.status(200).json({message:'success',data:se})
+	}catch(error){
+		res.status(500).json({message:'failed'})
+	}
+})
+
+app.post('/order/agre',async(req,res)=>{
+	try{
+		const agre=await order.findOne({}).populate('u_id')
+		console.log(JSON.stringify(order));
+		res.status(200).json({message:'success',data:agre})
+	}catch(error){
 		res.status(500).json({message:'failed'})
 	}
 })
